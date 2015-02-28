@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Poller::VERSION
   spec.authors       = ["(ю:】"]
   spec.email         = ["gardentreex@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = "Rake Middleware to send log of access to Treasure Data on Heroku"
+  spec.description   = ""
   spec.homepage      = ""
   spec.license       = "MIT"
 
