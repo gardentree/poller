@@ -1,4 +1,5 @@
 require "poller/version"
+require 'active_support'
 require 'active_support/core_ext'
 
 module Poller
