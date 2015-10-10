@@ -98,4 +98,18 @@ describe Poller::Middleware do
       expect(log).to eq "@[test] #{expected.to_json}\n"
     end
   end
+  describe 'when content type is nil' do
+    let(:app) do
+      mock = ApplicationMock.new {[200,{"Content-Type" => nil},'']}
+      Poller::Middleware.new(mock,'test')
+    end
+
+    it do
+      log = capture do
+        get '/'
+      end
+
+      expect(log).to eq ""
+    end
+  end
 end

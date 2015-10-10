@@ -40,7 +40,7 @@ module Poller
 
       def success(stamp,request,response)
         return if response.redirection?
-        return if response.ok? && !response.content_type.split(';').include?('text/html')
+        return if response.ok? && !(response.content_type||'').split(';').include?('text/html')
 
         poll stamp,request,response.status
       end
