@@ -4,9 +4,10 @@ require 'active_support/core_ext'
 
 module Poller
   class Middleware
-    def initialize(application,table,options={})
+    def initialize(application,table,scene,options={})
       @application  = application
       @table        = table
+      @scene        = scene
       @options      = options
     end
     def call(environment)
@@ -55,9 +56,11 @@ module Poller
           address:  request.ip(),
           agent:    request.user_agent(),
           referer:  request.referer(),
+          scene:    @scene,
+          time:     Time.now.utc.to_s,
         }
 
-        puts("@[#{@table}] #{log.to_json}")
+        puts({@table => log}.to_json)
       end
   end
 end
