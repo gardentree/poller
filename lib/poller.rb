@@ -12,7 +12,7 @@ module Poller
     end
     def call(environment)
       request = Rack::Request.new(environment)
-      stamp = request.cookies['stamp']||SecureRandom.hex
+      stamp = request.params[@options[:inheritance]]||request.cookies['stamp']||SecureRandom.hex
       begin
         status,header,body = @application.call(environment)
 

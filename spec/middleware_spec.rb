@@ -155,4 +155,28 @@ describe Poller::Middleware do
       expect(log).to eq ""
     end
   end
+  describe 'when inherit stamp' do
+    let(:app) do
+      mock = ApplicationMock.new {[200,{"Content-Type" => "text/html;charset=utf-8"},'']}
+      Poller::Middleware.new(mock,'target','test',inheritance: 'hoge')
+    end
+
+    it do
+      log = capture do
+        get '/?hoge=huga'
+      end
+
+      expected = {
+        stamp:    'huga',
+        status:   200,
+        url:      "http://example.org/?hoge=huga",
+        address:  "127.0.0.1",
+        agent:    nil,
+        referer:  nil,
+        scene:    'test',
+        time:     "2015-12-10 14:17:24 UTC",
+      }
+      expect(log).to eq({target: expected}.to_json + "\n")
+    end
+  end
 end
