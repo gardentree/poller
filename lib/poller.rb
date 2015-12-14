@@ -19,6 +19,10 @@ module Poller
         response = Rack::Response.new(body,status,header)
         response.set_cookie('stamp',create_cookie(stamp))
 
+        if request.cookies['referer'].nil? && request.referer()
+          response.set_cookie('referer',create_cookie(request.referer()))
+        end
+
         success(stamp,request,response)
 
         response.finish

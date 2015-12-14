@@ -69,8 +69,11 @@ describe Poller::Middleware do
           'HTTP_REFERER'    => 'http://example.com/',
         })
       end
+
+      cookies = Rack::Utils.parse_query(last_response.headers['Set-Cookie'].split("\n").join("&"))
+
       expected = {
-        stamp:    Rack::Utils.parse_query(last_response.headers['Set-Cookie'])['stamp'],
+        stamp:    cookies['stamp'],
         status:   200,
         url:      "http://example.org/full?one=1",
         address:  "8.8.8.8",
