@@ -17,13 +17,15 @@ module Poller
         status,header,body = @application.call(environment)
 
         response = Rack::Response.new(body,status,header)
-        response.set_cookie('stamp',create_cookie(stamp))
+        if html?(response)
+          response.set_cookie('stamp',create_cookie(stamp))
 
-        if request.cookies['referer'].nil? && request.referer()
-          response.set_cookie('referer',create_cookie(request.referer()))
+          if request.cookies['referer'].nil? && request.referer()
+            response.set_cookie('referer',create_cookie(request.referer()))
+          end
+
+          success(stamp,request,response)
         end
-
-        success(stamp,request,response)
 
         response.finish
       rescue => exception
@@ -43,10 +45,13 @@ module Poller
         cookie
       end
 
-      def success(stamp,request,response)
-        return if response.redirection?
-        return if response.ok? && !(response.content_type||'').split(';').include?('text/html')
+      def html?(response)
+        return false if response.redirection?
+        return false if response.ok? && !(response.content_type||'').split(';').include?('text/html')
 
+        true
+      end
+      def success(stamp,request,response)
         poll stamp,request,response.status
       end
       def failure(stamp,request)
