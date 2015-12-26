@@ -85,6 +85,7 @@ describe Poller::Middleware do
       expect(log).to eq({target: expected}.to_json + "\n")
 
       expect(cookies['referer']).to eq('http://example.com/')
+      expect(cookies['landing']).to eq('http://example.org/full?one=1')
     end
   end
   describe 'when exist referer and already referer' do
@@ -116,6 +117,7 @@ describe Poller::Middleware do
       expect(log).to eq({target: expected}.to_json + "\n")
 
       expect(cookies['referer']).to be_nil
+      expect(cookies['landing']).to be_nil
     end
   end
   describe 'when raise exception' do

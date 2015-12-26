@@ -22,6 +22,7 @@ module Poller
 
           if request.cookies['referer'].nil? && request.referer()
             response.set_cookie('referer',create_cookie(request.referer()))
+            response.set_cookie('landing',create_cookie(request.url()))
           end
 
           success(stamp,request,response)
