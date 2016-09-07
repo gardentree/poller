@@ -1,6 +1,7 @@
 require "poller/version"
 require 'active_support'
 require 'active_support/core_ext'
+require 'nkf'
 
 module Poller
   class Middleware
@@ -48,12 +49,13 @@ module Poller
         poll stamp,request,nil
       end
       def poll(stamp,request,status)
+        encode = NKF.guess(request.user_agent())
         log = {
           stamp:    stamp,
           status:   status,
           url:      request.url(),
           address:  request.ip(),
-          agent:    request.user_agent(),
+          agent:    request.user_agent().force_encoding(encode),
           referer:  request.referer(),
         }
 
