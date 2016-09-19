@@ -1,6 +1,7 @@
 require "poller/version"
 require 'active_support'
 require 'active_support/core_ext'
+require 'nkf'
 
 module Poller
   class Middleware
@@ -64,7 +65,7 @@ module Poller
           status:   status,
           url:      request.url(),
           address:  request.ip(),
-          agent:    request.user_agent(),
+          agent:    request.user_agent().force_encoding('utf-8').scrub('?'),
           referer:  request.referer(),
           scene:    @scene,
           time:     Time.now.utc.to_s,
