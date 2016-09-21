@@ -65,7 +65,7 @@ module Poller
           status:   status,
           url:      request.url(),
           address:  request.ip(),
-          agent:    request.user_agent().force_encoding('utf-8').scrub('?'),
+          agent:    (request.user_agent()||'').force_encoding('utf-8').scrub('?'),
           referer:  request.referer(),
           scene:    @scene,
           time:     Time.now.utc.to_s,
